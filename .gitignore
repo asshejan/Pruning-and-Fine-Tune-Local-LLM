@@ -1,0 +1,42 @@
+# Python & Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Training & Evaluation Datasets
+*.jsonl
+dataset_train.jsonl
+dataset_val.jsonl
+dataset_*.jsonl
+data/
+datasets/
+
+# Large Model Weights & Checkpoints
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.gguf
+gemma-4-E2B-text/
+gemma-router-qlora/
+gemma-router-merged/
+checkpoint-*/
+runs/
+wandb/
+
+# Hugging Face & Caches
+.cache/
+hf_cache/
+
+# IDE & OS Metadata
+.vscode/
+.idea/
+.DS_Store 
+Thumbs.db
+*.log

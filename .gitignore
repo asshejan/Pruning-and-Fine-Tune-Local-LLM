@@ -40,3 +40,6 @@ hf_cache/
 .DS_Store 
 Thumbs.db
 *.log
+
+# Third-party tools
+llama.cpp/

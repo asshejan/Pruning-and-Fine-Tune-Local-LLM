@@ -51,7 +51,14 @@ def main():
         dtype=torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
     )
 
-    model = prepare_model_for_kbit_training(model)
+    # Freeze base model weights and cast only norms to float32 (avoid upcasting 2.35B embeddings to float32)
+    for name, param in model.named_parameters():
+        param.requires_grad = False
+        if "norm" in name and param.__class__.__name__ != "Params4bit":
+            param.data = param.data.to(torch.float32)
+
+    if hasattr(model, "enable_input_require_grads"):
+        model.enable_input_require_grads()
 
     # 3. LoRA Configuration
     peft_config = LoraConfig(
@@ -111,6 +118,7 @@ def main():
         model=model,
         train_dataset=train_ds,
         eval_dataset=val_ds,
+        processing_class=tokenizer,
         args=training_args
     )
 

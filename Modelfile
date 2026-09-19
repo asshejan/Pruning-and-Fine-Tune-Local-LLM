@@ -1,0 +1,5 @@
+FROM ./gemma-router-q8_0.gguf
+
+PARAMETER stop "<turn|>"
+PARAMETER stop "<|turn>"
+PARAMETER temperature 0.1

@@ -38,7 +38,10 @@ cd "d:\Project\Fine Tune\steps"
 7. **`python 07_merge_and_export.py`**
    - Merges the adapter weights back into the base model weights on CPU.
    - Outputs the merged standalone model to `../gemma-router-merged`.
-   - Displays exact instructions for GGUF quantization and Ollama registration.
+
+8. **`python 08_export_to_ollama.py`**
+   - Converts the merged model to GGUF format (`Q8_0`, ~4.9GB) using `llama.cpp`.
+   - Generates the Ollama `Modelfile` and automatically registers `gemma4-router:latest` with Ollama.
 
 ---
 

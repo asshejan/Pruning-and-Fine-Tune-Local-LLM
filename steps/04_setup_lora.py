@@ -33,8 +33,17 @@ def main():
         dtype=torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
     )
 
-    # 2. Prepare k-bit model for training (casts layer norms to fp32, enables input gradients)
-    model = prepare_model_for_kbit_training(model)
+    # 2. Prepare k-bit model for training
+    # Note: Default PEFT prepare_model_for_kbit_training attempts to upcast ALL non-4bit
+    # parameters to float32. For Gemma 4, that tries to upcast the 2.35B embedding table
+    # requiring 8.75 GiB VRAM and causes OOM. We freeze base weights and cast only norms to float32!
+    for name, param in model.named_parameters():
+        param.requires_grad = False
+        if "norm" in name and param.__class__.__name__ != "Params4bit":
+            param.data = param.data.to(torch.float32)
+
+    if hasattr(model, "enable_input_require_grads"):
+        model.enable_input_require_grads()
 
     # 3. LoRA Configuration
     peft_config = LoraConfig(

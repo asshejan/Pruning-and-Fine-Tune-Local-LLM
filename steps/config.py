@@ -3,14 +3,9 @@ Shared configuration for the step-by-step QLoRA fine-tuning pipeline.
 """
 from pathlib import Path
 
-# Base model identifier (Hugging Face model ID or local directory)
-# Base model identifier (Hugging Face model ID or local directory)
-# Note: google/gemma-4-E2B-it is a gated model on Hugging Face.
-# Run `hf auth login` or set $env:HF_TOKEN = "your_token".
-MODEL_ID = "google/gemma-4-E2B-it"
-
 # Directories & files
 WORKSPACE_DIR = Path(__file__).resolve().parent.parent
+MODEL_ID = str(WORKSPACE_DIR / "gemma-4-E2B-text")
 DATA_TRAIN = WORKSPACE_DIR / "dataset_train.jsonl"
 DATA_VAL = WORKSPACE_DIR / "dataset_val.jsonl"
 
